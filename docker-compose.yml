@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  postgres:
+    container_name: postgresdb
+    image: postgres
+    restart: always
+    environment: 
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: 12345
+      PGDATA: /data/postgres
+      CONFIGS: "listen_addresses:'*'"
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - postgres
+  goapi:
+    container_name: goapi
+    image: goapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 4000:4000
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    postgres:
