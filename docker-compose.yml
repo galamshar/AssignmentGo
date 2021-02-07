@@ -19,6 +19,8 @@ services:
   goapi:
     container_name: goapi
     image: goapi
+    depends_on:
+      - postgres
     build:
       context: .
       dockerfile: ./Dockerfile
